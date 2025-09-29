@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h1>Dashboard:</h1>
+    <div id="notification">
+        <ul>
+            {% for order in orders_data %}
+            <li>Order {{ order.id }}: {{ order.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        const restaurant_id = "{{restaurant_id}}"
+        const evtSource = new EventSource(`stream/${restaurant_id}`);
+
+        evtSource.onmessage = function (event) {
+            const messagesDiv = document.getElementById("notification");
+            messagesDiv.innerHTML += event.data + "<br>";
+        };
+
+
+    </script>
+</body>
+
+</html>

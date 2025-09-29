@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload with Progress</title>
+</head>
+
+<body>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload</button>
+    <p id="progressText">Progress: 0%</p>
+    <p id="fileinfo">info: </p>
+
+    <p id="filepath">status : </p>
+
+    <script>
+        function uploadFile() {
+            const file = document.getElementById("fileInput").files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // get progress of uploadig
+            const evtSource = new EventSource("progress");
+            evtSource.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                switch (data.type) {
+                    case "progress":
+                        const uploaded = parseInt(data.progress);
+                        const percent = ((uploaded / file.size) * 100).toFixed(2);
+                        document.getElementById("progressText").textContent =
+                            `Progress: ${percent}% (${uploaded} / ${file.size} bytes)`;
+                        break;
+
+                    case "status":
+                        document.getElementById("filepath").textContent = `path: ${data.status}`;
+                        break;
+
+                    case "info":
+                        document.getElementById("fileinfo").textContent = `info: ${JSON.stringify(data.info)}`;
+                        break;
+                }
+            }
+
+            fetch("upload", {
+                method: "POST",
+                body: formData
+            }).then(res => res.json())
+                .then(data => console.log("Upload complete:", data));
+        }
+    </script>
+
+</body>
+
+</html>

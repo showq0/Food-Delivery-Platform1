@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>announce</title>
+</head>
+
+<body>
+    <h1>Announce:</h1>
+    <div id="announcements">
+    </div>
+
+    <script>
+        const evtSource = new EventSource(`stream/`);
+        evtSource.onmessage = function (event) {
+            const messagesDiv = document.getElementById("announcements");
+            messagesDiv.innerHTML += event.data + "<br>";
+        };
+
+    </script>
+</body>
+
+</html>
