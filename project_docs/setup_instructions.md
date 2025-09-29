@@ -8,8 +8,8 @@
 1. Clone the repository:
 
 ```bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+gh repo clone showq0/Food-Delivery-Platform1
+cd Food-Delivery-Platform1
 ```
 
 Create a virtual environment (recommended):
@@ -25,7 +25,7 @@ Install all requirements:
 pip install -r requirements.txt
 ```
 
-### RUN poject
+### RUN project
 
 ```bash
 python app.py
